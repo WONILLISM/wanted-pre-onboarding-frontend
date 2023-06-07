@@ -1,7 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import Input from "../components/Input";
+import { signUp } from "../common/api/auth";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const [emailHelpText, setEmailHelpText] = useState<string>("");
@@ -39,6 +43,15 @@ const SignUp = () => {
     setPassword(value);
   };
 
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+    // e.preventDefault();
+    const response = await signUp({ email, password });
+
+    if (response === "fail") return;
+
+    navigate("/signin");
+  };
+
   return (
     <div>
       <Input
@@ -60,6 +73,7 @@ const SignUp = () => {
       <button
         data-testid="signup-button"
         disabled={!isValidEmail || !isValidPassword}
+        onClick={handleSubmit}
       >
         회원가입
       </button>
