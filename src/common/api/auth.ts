@@ -12,7 +12,7 @@ interface SignInPrams {
   password: string;
 }
 
-type SignInResponse = "success" | "fail";
+type SignInResponse = string | "fail";
 
 export const signUp = async ({
   email,
@@ -57,10 +57,7 @@ export const signIn = async ({
       }
     );
 
-    localStorage.setItem("access-token", res.data.access_token);
-    console.log(res);
-
-    return "success";
+    return res.data.access_token;
   } catch (error) {
     console.log(error);
     return "fail";
