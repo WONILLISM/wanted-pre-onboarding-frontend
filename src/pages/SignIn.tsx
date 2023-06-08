@@ -1,10 +1,12 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
 import Input from "../components/Input";
 import { signIn } from "../common/api/auth";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../common/context/AuthContext";
+import useAuth from "../common/hooks/useAuth";
 
 const SignIn = () => {
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
@@ -43,12 +45,9 @@ const SignIn = () => {
     setPassword(value);
   };
 
-  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-    const response = await signIn({ email, password });
-
-    if (response === "fail") return;
-
-    navigate("/todo");
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    // const response = await signIn({ email, password });
+    login({ email, password });
   };
 
   return (
