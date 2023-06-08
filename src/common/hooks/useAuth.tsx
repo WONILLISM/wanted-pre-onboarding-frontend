@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const navigate = useNavigate();
-  const { authenticated, setAuthenticated } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
     const token = localStorage.getItem("access-token");
     if (!!token) {
-      setAuthenticated(true);
+      setUser({ token: token });
     }
   }, []);
 
@@ -24,21 +24,20 @@ const useAuth = () => {
     const token = await signIn({ email, password });
 
     if (token === "fail") {
-      console.log(token);
       return;
     }
 
     localStorage.setItem("access-token", token);
-    setAuthenticated(true);
+    setUser({ token: token });
     navigate("/todo");
   };
 
   const logout = () => {
     localStorage.removeItem("access-token");
-    setAuthenticated(false);
+    setUser(null);
   };
 
-  return { authenticated, login, logout };
+  return { user, login, logout };
 };
 
 export default useAuth;
