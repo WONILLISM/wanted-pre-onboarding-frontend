@@ -2,9 +2,9 @@ import useAuth from "../common/hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
 
 const MainLayout = () => {
-  const { authenticated } = useAuth();
+  const { user } = useAuth();
 
-  if (!authenticated) {
+  if (!user) {
     return <Navigate to="/signin" />;
   }
 

@@ -1,24 +1,26 @@
 import { ReactNode, createContext, useState } from "react";
 
+interface User {
+  token: string;
+}
+
 interface AuthState {
-  authenticated: boolean;
-  setAuthenticated: (isAuth: boolean) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
 }
 
 const initialAuthState: AuthState = {
-  authenticated: false,
-  setAuthenticated: () => {},
+  user: null,
+  setUser: () => {},
 };
 
 export const AuthContext = createContext<AuthState>(initialAuthState);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(
-    initialAuthState.authenticated
-  );
+  const [user, setUser] = useState<User | null>(initialAuthState.user);
 
   return (
-    <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
