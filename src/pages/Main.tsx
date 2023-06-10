@@ -14,9 +14,10 @@ const Main = () => {
       setTodos(todoRes);
     }
   };
+
   useEffect(() => {
     fetchTodos();
-  }, []);
+  }, [todos]);
 
   return (
     <div>

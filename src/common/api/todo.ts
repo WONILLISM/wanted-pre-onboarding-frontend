@@ -16,8 +16,29 @@ export const getTodos = async (user: User) => {
       },
     });
 
-    console.log(res);
+    // console.log(res);
     return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createTodo = async (user: User, todo: string) => {
+  try {
+    const res = await preOnboardingAPI.post(
+      "/todos",
+      {
+        todo: todo,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log(res);
   } catch (error) {
     console.log(error);
   }
