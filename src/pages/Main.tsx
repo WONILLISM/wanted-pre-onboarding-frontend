@@ -17,7 +17,7 @@ const Main = () => {
 
   useEffect(() => {
     fetchTodos();
-  }, [todos]);
+  }, []);
 
   return (
     <div>
