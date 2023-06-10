@@ -43,3 +43,15 @@ export const createTodo = async (user: User, todo: string) => {
     console.log(error);
   }
 };
+
+export const deleteTodo = async (id: number, user: User) => {
+  try {
+    const res = await preOnboardingAPI.delete(`/todos/${id}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
