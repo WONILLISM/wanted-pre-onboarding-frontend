@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { Todo, createTodo } from "../common/api/todo";
 import useAuth from "../common/hooks/useAuth";
+import TodoItem from "./TodoItem";
 
 interface Props {
   todos: Todo[];
@@ -20,6 +21,7 @@ const TodoList = ({ todos }: Props) => {
       createTodo(user, newTodo);
     }
   };
+
   return (
     <div>
       <div>
@@ -28,15 +30,7 @@ const TodoList = ({ todos }: Props) => {
           추가
         </button>
       </div>
-      {todos &&
-        todos.map((todo) => (
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>{todo.todo}</span>
-            </label>
-          </li>
-        ))}
+      {todos && todos.map((todo) => <TodoItem todo={todo} />)}
     </div>
   );
 };
