@@ -1,7 +1,12 @@
-import React from "react";
+import { TodoProvider } from "../common/context/TodoContext";
+import TodoList from "../components/Todo/TodoList";
 
 const Main = () => {
-  return <div>Main</div>;
+  return (
+    <TodoProvider>
+      <TodoList />
+    </TodoProvider>
+  );
 };
 
 export default Main;
