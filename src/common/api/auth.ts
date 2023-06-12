@@ -63,3 +63,7 @@ export const signIn = async ({
     return "fail";
   }
 };
+
+export const getAccessToken = () => {
+  return localStorage.getItem("access-token");
+};
