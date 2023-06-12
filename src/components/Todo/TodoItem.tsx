@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Todo } from "../../common/interface/Todo";
 import { useTodos } from "../../common/hooks/useTodos";
+import styled from "styled-components";
 
 interface Props {
   todo: Todo;
@@ -42,12 +43,13 @@ const TodoItem = ({ todo }: Props) => {
   };
 
   useEffect(() => {
+    setUpdate(false);
     setTodoItem(todo);
   }, [todo]);
 
   return (
-    <li>
-      <label>
+    <RootStyle>
+      <Label>
         <input
           type="checkbox"
           checked={todoItem.isCompleted}
@@ -63,42 +65,61 @@ const TodoItem = ({ todo }: Props) => {
             onChange={handleModifyChange}
           />
         )}
-      </label>
-      {!update ? (
+      </Label>
+      <ButtonArea>
+        {!update ? (
+          <button
+            data-testid="modify-button"
+            type="button"
+            onClick={handleUpdateButton}
+          >
+            수정
+          </button>
+        ) : (
+          <>
+            <button
+              data-testid="submit-button"
+              type="button"
+              onClick={handleSubmit}
+            >
+              제출
+            </button>
+            <button
+              data-testid="cancel-button"
+              type="button"
+              onClick={handleCancelButton}
+            >
+              취소
+            </button>
+          </>
+        )}
         <button
-          data-testid="modify-button"
+          data-testid="delete-button"
           type="button"
-          onClick={handleUpdateButton}
+          onClick={handleDeleteItem}
         >
-          수정
+          삭제
         </button>
-      ) : (
-        <>
-          <button
-            data-testid="submit-button"
-            type="button"
-            onClick={handleSubmit}
-          >
-            제출
-          </button>
-          <button
-            data-testid="cancel-button"
-            type="button"
-            onClick={handleCancelButton}
-          >
-            취소
-          </button>
-        </>
-      )}
-      <button
-        data-testid="delete-button"
-        type="button"
-        onClick={handleDeleteItem}
-      >
-        삭제
-      </button>
-    </li>
+      </ButtonArea>
+    </RootStyle>
   );
 };
+
+const RootStyle = styled.li`
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Label = styled.label`
+  display: flex;
+`;
+
+const ButtonArea = styled.div`
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+`;
 
 export default TodoItem;
