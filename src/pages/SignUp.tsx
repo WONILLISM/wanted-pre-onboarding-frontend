@@ -2,6 +2,7 @@ import { ChangeEvent, MouseEvent, useState } from "react";
 import Input from "../components/Input";
 import { signUp } from "../common/api/auth";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -53,7 +54,8 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <RootStyle>
+      <TitleStyle>REGISTER</TitleStyle>
       <Input
         data-testid="email-input"
         label="email"
@@ -70,15 +72,32 @@ const SignUp = () => {
         type="password"
         onChange={handlePasswordChange}
       />
-      <button
+      <Button
         data-testid="signup-button"
         disabled={!isValidEmail || !isValidPassword}
         onClick={handleSubmit}
       >
         회원가입
-      </button>
-    </div>
+      </Button>
+    </RootStyle>
   );
 };
+
+const RootStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TitleStyle = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+
+  margin-bottom: 12px;
+`;
+
+const Button = styled.button`
+  margin-top: 12px;
+`;
 
 export default SignUp;
