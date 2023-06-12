@@ -1,9 +1,7 @@
-import { ChangeEvent, MouseEvent, useContext, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import Input from "../components/Input";
-import { signIn } from "../common/api/auth";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../common/context/AuthContext";
 import useAuth from "../common/hooks/useAuth";
+import styled from "styled-components";
 
 const SignIn = () => {
   const { login } = useAuth();
@@ -46,12 +44,12 @@ const SignIn = () => {
   };
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-    // const response = await signIn({ email, password });
     login({ email, password });
   };
 
   return (
-    <div>
+    <RootStyle>
+      <TitleStyle>LOGIN</TitleStyle>
       <Input
         data-testid="email-input"
         label="email"
@@ -68,15 +66,32 @@ const SignIn = () => {
         type="password"
         onChange={handlePasswordChange}
       />
-      <button
+      <Button
         data-testid="signin-button"
         disabled={!isValidEmail || !isValidPassword}
         onClick={handleSubmit}
       >
         로그인
-      </button>
-    </div>
+      </Button>
+    </RootStyle>
   );
 };
+
+const RootStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TitleStyle = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+
+  margin-bottom: 12px;
+`;
+
+const Button = styled.button`
+  margin-top: 12px;
+`;
 
 export default SignIn;
