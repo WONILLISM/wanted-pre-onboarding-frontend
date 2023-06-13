@@ -17,7 +17,7 @@ const TodoList = () => {
       <TitleStyle>TODO LIST</TitleStyle>
       <NewTodo />
       <TodosWrapper>
-        {todos && todos.map((todo) => <TodoItem todo={todo} />)}
+        {todos && todos.map((todo, idx) => <TodoItem key={idx} todo={todo} />)}
       </TodosWrapper>
     </RootStyle>
   );
