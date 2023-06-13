@@ -17,4 +17,17 @@
 
 ## 🙋 프로젝트 실행 방법
 
-## 데모 영상 및 배포 링크
+터미널에서 아래를 순서대로 입력해주세요.
+
+1. `git glone git@github.com:WONILLISM/wanted-pre-onboarding-frontend.git`
+2. `cd wanted-pre-onboarding-frontend`
+3. `npm i`
+4. `npm start`
+
+test용 아이디는 아래와 같습니다.
+ID : wonillism@test.com
+PW : 123123123
+
+## 🎬 데모 영상 및 배포 링크
+
+배포링크 : https://wonillism.netlify.app/signin
