@@ -3,18 +3,18 @@ import styled from "styled-components";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   dataTestId?: string;
-  helpText?: string;
+  error?: string;
   label?: string;
   value: string;
 }
 
-const Input = ({ dataTestId, helpText, label, value, ...rest }: Props) => {
+const Input = ({ dataTestId, error, label, value, ...rest }: Props) => {
   return (
     <RootStyle>
       {label && <label>{label}</label>}
       <InputWrapper>
         <input data-testid={dataTestId} {...rest} />
-        {!!value && helpText && <HelpText>{helpText}</HelpText>}
+        {!!value && error && <Error>{error}</Error>}
       </InputWrapper>
     </RootStyle>
   );
@@ -34,7 +34,7 @@ const InputWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const HelpText = styled.div`
+const Error = styled.div`
   margin-top: 4px;
   font-size: 0.8rem;
 `;
