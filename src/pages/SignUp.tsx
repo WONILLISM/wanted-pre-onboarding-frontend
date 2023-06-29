@@ -1,84 +1,77 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
-import Input from "../components/Input";
-import { signUp } from "../common/api/auth";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import Input from "../components/Input";
+import useAuth from "../common/hooks/useAuth";
+import useForm from "../common/hooks/useForm";
+
+interface SignUpValues {
+  email: string;
+  password: string;
+}
+
+const signUpValidationSchema = {
+  email: {
+    pattern: {
+      value: "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+$",
+      message: "이메일 형식이 올바르지 않습니다.",
+    },
+  },
+  password: {
+    pattern: {
+      value: "^.{8,}$",
+      message: "비밀번호 형식이 올바르지 않습니다.",
+    },
+  },
+};
+
 const SignUp = () => {
-  const navigate = useNavigate();
+  const { register } = useAuth();
 
-  const [email, setEmail] = useState<string>("");
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [emailHelpText, setEmailHelpText] = useState<string>("");
-
-  const [password, setPassword] = useState<string>("");
-  const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
-  const [passwordHelpText, setPasswordHelpText] = useState<string>("");
-
-  const emailRegex = /\S+@\S+/;
-  const passwordRegex = /^.{8,}$/;
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    if (emailRegex.test(value)) {
-      setIsValidEmail(true);
-      setEmailHelpText("올바른 이메일 형식입니다.");
-    } else {
-      setIsValidEmail(false);
-      setEmailHelpText("올바르지 않은 이메일 형식입니다.");
-    }
-    setEmail(e.target.value);
+  const onSubmit = () => {
+    register(values);
   };
 
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    if (passwordRegex.test(value)) {
-      setIsValidPassword(true);
-      setPasswordHelpText("올바른 비밀번호 형식입니다.");
-    } else {
-      setIsValidPassword(false);
-      setPasswordHelpText("올바르지 않은 비밀번호 형식입니다.");
-    }
-    setPassword(value);
-  };
-
-  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-    // e.preventDefault();
-    const response = await signUp({ email, password });
-
-    if (response === "fail") return;
-
-    navigate("/signin");
-  };
+  const { values, errors, onChange, handleSubmit } = useForm<SignUpValues>({
+    initialValues: { email: "", password: "" },
+    validations: signUpValidationSchema,
+    onSubmit: onSubmit,
+  });
 
   return (
     <RootStyle>
       <TitleStyle>REGISTER</TitleStyle>
-      <Input
-        data-testid="email-input"
-        label="email"
-        helpText={emailHelpText}
-        value={email}
-        type="email"
-        onChange={handleEmailChange}
-      />
-      <Input
-        data-testid="password-input"
-        label="password"
-        helpText={passwordHelpText}
-        value={password}
-        type="password"
-        onChange={handlePasswordChange}
-      />
-      <Button
-        data-testid="signup-button"
-        disabled={!isValidEmail || !isValidPassword}
-        onClick={handleSubmit}
-      >
-        회원가입
-      </Button>
+      <form onSubmit={handleSubmit}>
+        <Input
+          data-testid="email-input"
+          type="text"
+          label="email"
+          name="email"
+          value={values.email}
+          error={errors?.email}
+          onChange={onChange}
+        />
+        <Input
+          data-testid="password-input"
+          type="password"
+          label="password"
+          name="password"
+          value={values.password}
+          error={errors?.password}
+          onChange={onChange}
+        />
+        <Button
+          data-testid="signup-button"
+          type="submit"
+          disabled={
+            !!!values.email ||
+            !!!values.password ||
+            !!errors.email ||
+            !!errors.password
+          }
+        >
+          회원가입
+        </Button>
+      </form>
     </RootStyle>
   );
 };

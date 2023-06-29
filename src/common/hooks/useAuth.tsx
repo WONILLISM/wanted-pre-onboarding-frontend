@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { signIn } from "../api/auth";
+import { signIn, signUp } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
@@ -32,12 +32,26 @@ const useAuth = () => {
     navigate("/todo");
   };
 
+  const register = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    const response = await signUp({ email, password });
+
+    if (response === "fail") return;
+
+    navigate("/signin");
+  };
+
   const logout = () => {
     localStorage.removeItem("access-token");
     setUser(null);
   };
 
-  return { user, login, logout };
+  return { user, login, register, logout };
 };
 
 export default useAuth;
